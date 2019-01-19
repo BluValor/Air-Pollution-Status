@@ -14,7 +14,6 @@ public class DataCollector implements Serializable {
     private ConcurrentHashMap<Integer, City> cities = new ConcurrentHashMap<>();
 
     public DataCollector() {
-
     }
 
     public ConcurrentHashMap<Integer, Station> getStations() {

@@ -4,6 +4,9 @@ import classes.api_objects.City;
 import classes.api_objects.Station;
 
 import java.io.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DataManager {
@@ -21,11 +24,16 @@ public class DataManager {
 
     private DataCollector dataCollector = null;
 
-    public void initDataCollector(boolean deserializeData) {
-        if (deserializeData) {
+    public void initDataCollector(boolean updateData) {
+        if (!updateData) {
             loadData();
         } else {
             this.dataCollector = new DataCollector();
+            ApiInputParser parser = new ApiInputParser();
+            parser.parseStations();
+            collectStations(parser);
+            collectCities(parser);
+            saveData();
         }
     }
 
@@ -49,13 +57,20 @@ public class DataManager {
         }
     }
 
-
     public void collectStations(ApiInputParser parser) {
         dataCollector.setStations(parser.getStations());
     }
 
     public ConcurrentHashMap<Integer, Station> getStations() {
         return dataCollector.getStations();
+    }
+
+    public LinkedList<Station> getListOfStations() {
+        LinkedList<Station> result = new LinkedList<>();
+        for (Map.Entry<Integer, Station> entry : dataCollector.getStations().entrySet()) {
+            result.add(entry.getValue());
+        }
+        return result;
     }
 
     public void collectCities(ApiInputParser parser) {

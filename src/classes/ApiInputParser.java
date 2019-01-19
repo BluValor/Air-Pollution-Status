@@ -368,6 +368,7 @@ public class ApiInputParser {
                         result.setId(parser.getString());
                         break;
                     case "indexLevelName":
+                        parser.next();
                         result.setIndexLevelName(parser.getString());
                         break;
                     default:

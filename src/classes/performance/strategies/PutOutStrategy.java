@@ -1,6 +1,10 @@
 package classes.performance.strategies;
 
+import classes.api_objects.Station;
+
+import java.util.LinkedList;
+
 public interface PutOutStrategy {
 
-    void putOutData();
+    String putOutData(LinkedList<Station> stations);
 }

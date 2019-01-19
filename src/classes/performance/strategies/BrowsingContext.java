@@ -1,15 +1,18 @@
 package classes.performance.strategies;
 
+import classes.api_objects.Station;
+
+import java.util.LinkedList;
+
 public class BrowsingContext {
 
     private BrowsingStrategy strategy;
 
-    public void setBrowsinStrategy(BrowsingStrategy strategy) {
+    public void setBrowsingStrategy(BrowsingStrategy strategy) {
         this.strategy = strategy;
     }
 
-    // uzupełnić wyszukiwanie, argumenty etc.
-    public void Browse() {
-
+    public LinkedList<Station> Browse(LinkedList<Station> stations) {
+        return strategy.searchData(stations);
     }
 }
