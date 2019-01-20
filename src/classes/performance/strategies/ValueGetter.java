@@ -1,5 +1,6 @@
 package classes.performance.strategies;
 
+import classes.RunSettings;
 import classes.TimeManager;
 import classes.api_objects.Sensor;
 import classes.api_objects.Station;
@@ -88,5 +89,36 @@ public class ValueGetter {
             if (TimeManager.isHourBetween(startHour, endHour, TimeManager.getHour(value.date)))
                 result.addLast(value);
         return result;
+    }
+
+
+
+    public static LinkedList<Sensor> selectStationSensorsForParams(Station station) {
+        LinkedList<Sensor> sensors;
+        if (RunSettings.getInstance().getParameters() != null)
+            return sensors = getSensorsForMultipleParams(RunSettings.getInstance().getParameters(), station);
+        return sensors = station.sensors;
+    }
+
+    public static LinkedList<Value> selectSensorValuesForDays(Sensor sensor) {
+        LinkedList<Value> values;
+        if (RunSettings.getInstance().getDays() != null) {
+            if (RunSettings.getInstance().getDays().length == 1)
+                values = getSensorValuesForSingleDay(RunSettings.getInstance().getDays()[0],
+                        sensor);
+            else values = getSensorValuesForDaysBetween(RunSettings.getInstance().getDays()[0],
+                    RunSettings.getInstance().getDays()[1], sensor);
+        } else values = getAllSensorValues(sensor);
+        return values;
+    }
+
+    public static LinkedList<Value> sortOutValuesForHours(LinkedList<Value> values) {
+        if (RunSettings.getInstance().getHours() != null) {
+            if (RunSettings.getInstance().getHours().length == 1)
+                return getValuesForSingleHour(values, RunSettings.getInstance().getHours()[0]);
+            return values = getValuesForHoursBetween(values, RunSettings.getInstance().getHours()[0],
+                    RunSettings.getInstance().getHours()[1]);
+        }
+        return values;
     }
 }

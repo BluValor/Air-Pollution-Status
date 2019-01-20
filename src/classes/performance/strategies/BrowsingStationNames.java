@@ -11,7 +11,7 @@ public class BrowsingStationNames implements BrowsingStrategy {
         LinkedList<Station> result = new LinkedList<>();
         for (Station station : stations) {
             for (String name : RunSettings.getInstance().getStations())
-                if (station.stationName.equals(name))
+                if (station.stationName.equalsIgnoreCase(name))
                     result.add(station);
         }
         return result;

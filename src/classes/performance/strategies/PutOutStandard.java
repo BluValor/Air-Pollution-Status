@@ -17,29 +17,13 @@ public class PutOutStandard implements PutOutStrategy {
             result.append(System.lineSeparator()).append(System.lineSeparator()).append(station.city.name)
                     .append(", ").append(station.stationName).append(" (").append(station.id).append(") ")
                     .append(System.lineSeparator());
-            LinkedList<Sensor> sensors;
 
-            if (RunSettings.getInstance().getParameters() != null)
-                sensors = ValueGetter.getSensorsForMultipleParams(RunSettings.getInstance().getParameters(), station);
-            else sensors = station.sensors;
+            LinkedList<Sensor> sensors = ValueGetter.selectStationSensorsForParams(station);
 
             for (Sensor sensor : sensors) {
-                LinkedList<Value> values;
                 result.append("  ").append(sensor.param.paramCode.toUpperCase()).append(System.lineSeparator());
 
-                if (RunSettings.getInstance().getDays() != null) {
-                    if (RunSettings.getInstance().getDays().length == 1)
-                        values = ValueGetter.getSensorValuesForSingleDay(RunSettings.getInstance().getDays()[0],
-                                sensor);
-                    else values = ValueGetter.getSensorValuesForDaysBetween(RunSettings.getInstance().getDays()[0],
-                            RunSettings.getInstance().getDays()[1], sensor);
-                } else values = ValueGetter.getAllSensorValues(sensor);
-
-                if (RunSettings.getInstance().getHours() != null)
-                    if (RunSettings.getInstance().getHours().length == 1)
-                        values = ValueGetter.getValuesForSingleHour(values, RunSettings.getInstance().getHours()[0]);
-                    else values = ValueGetter.getValuesForHoursBetween(values, RunSettings.getInstance().getHours()[0],
-                            RunSettings.getInstance().getHours()[1]);
+                LinkedList<Value> values = ValueGetter.sortOutValuesForHours(ValueGetter.selectSensorValuesForDays(sensor));
 
                 for (Value value : values)
                     result.append("    ").append(value.date).append("    ").append(value.value)
