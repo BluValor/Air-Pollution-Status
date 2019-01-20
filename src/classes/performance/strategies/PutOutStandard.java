@@ -26,8 +26,9 @@ public class PutOutStandard implements PutOutStrategy {
                 LinkedList<Value> values = ValueGetter.sortOutValuesForHours(ValueGetter.selectSensorValuesForDays(sensor));
 
                 for (Value value : values)
-                    result.append("    ").append(value.date).append("    ").append(value.value)
-                            .append(System.lineSeparator());
+                    result.append("    ").append(value.date).append("    ")
+                            .append(WriteAssistant.allingToChar(value.value, '.', 11, 5))
+                            .append("   ug/m3").append(System.lineSeparator());
             }
         }
         return result.toString();

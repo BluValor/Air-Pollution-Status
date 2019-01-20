@@ -12,6 +12,7 @@ import java.util.Random;
 
 import classes.exceptions.IncompatibleOptionsExceptions;
 import classes.performance.executors.ExecutorAQIndex;
+import classes.performance.executors.ExecutorAverage;
 import classes.performance.executors.ExecutorStandard;
 import classes.performance.executors.ExecutorTemplate;
 import picocli.CommandLine;
@@ -113,6 +114,8 @@ public class Main implements Runnable {
             return new ExecutorStandard();
         else if (getAQ)
             return new ExecutorAQIndex();
+        else if (average)
+            return new ExecutorAverage();
         else return null;
     }
 }
